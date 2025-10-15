@@ -1,134 +1,75 @@
-<script>
-const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRPQtSboEl1-0VmU7oJztHpeOTwr2upKLDj8JUtXSP-fU1q2HCF4q4BPg4svbMy3JDpnavypBq91iJF/pub?gid=1189652645&single=true&output=csv";
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaderboard Lari</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>🏃‍♂️ Leaderboard Lari Mingguan</h1>
+  <table id="leaderboard">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Nama</th>
+        <th>Total Jarak (KM)</th>
+        <th>Submission</th>
+        <th>Pace</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td colspan="5">Memuat data...</td></tr>
+    </tbody>
+  </table>
 
-/**
- * Simple RFC4180-ish CSV parser that supports quoted fields with commas/newlines
- * Returns array of rows (each row = array of fields)
- */
-function parseCSV(text) {
-  const rows = [];
-  let cur = '';
-  let row = [];
-  let inQuotes = false;
+  <script>
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRPQtSboEl1-0VmU7oJztHpeOTwr2upKLDj8JUtXSP-fU1q2HCF4q4BPg4svbMy3JDpnavypBq91iJF/pub?gid=1189652645&single=true&output=csv";
 
-  for (let i = 0; i < text.length; i++) {
-    const ch = text[i];
-    const next = text[i+1];
+    async function loadLeaderboard() {
+      try {
+        const res = await fetch(sheetUrl);
+        const text = await res.text();
+        const rows = text.trim().split("\n").map(r => r.split(","));
+        const data = rows.slice(1).map(r => ({
+          nama: r[0],
+          jarak: parseFloat(r[1]) || 0,
+          submission: r[2],
+          pace: r[3]
+        }));
 
-    if (ch === '"' ) {
-      if (inQuotes && next === '"') {
-        // escaped quote
-        cur += '"';
-        i++; // skip next
-      } else {
-        inQuotes = !inQuotes; // toggle quote
+        // Urutkan dari jarak tertinggi ke terendah
+        data.sort((a, b) => b.jarak - a.jarak);
+
+        const tbody = document.querySelector("#leaderboard tbody");
+        tbody.innerHTML = "";
+
+        data.forEach((r, i) => {
+          let medal = "";
+          if (i === 0) medal = "🥇";
+          else if (i === 1) medal = "🥈";
+          else if (i === 2) medal = "🥉";
+
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${medal || i + 1}</td>
+            <td>${r.nama}</td>
+            <td>${r.jarak}</td>
+            <td>${r.submission}</td>
+            <td>${r.pace}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+      } catch (err) {
+        console.error("Gagal memuat data:", err);
+        document.querySelector("#leaderboard tbody").innerHTML =
+          `<tr><td colspan="5">⚠️ Gagal memuat data</td></tr>`;
       }
-      continue;
     }
 
-    if (!inQuotes && ch === ',') {
-      row.push(cur);
-      cur = '';
-      continue;
-    }
-
-    if (!inQuotes && (ch === '\n' || ch === '\r')) {
-      // handle CRLF or LF
-      if (ch === '\r' && next === '\n') { i++; } // skip CRLF second char
-      row.push(cur);
-      rows.push(row);
-      row = [];
-      cur = '';
-      continue;
-    }
-
-    cur += ch;
-  }
-
-  // push last
-  if (cur !== '' || row.length > 0) {
-    row.push(cur);
-    rows.push(row);
-  }
-
-  // remove possible empty last row
-  if (rows.length && rows[rows.length - 1].length === 1 && rows[rows.length - 1][0] === '') {
-    rows.pop();
-  }
-
-  return rows;
-}
-
-async function loadLeaderboard() {
-  const tbody = document.querySelector("#leaderboard tbody");
-  tbody.innerHTML = `<tr><td colspan="5">Memuat data...</td></tr>`;
-
-  try {
-    const res = await fetch(sheetUrl);
-    const text = await res.text();
-
-    // Debug: tampilkan 1000 karakter pertama di console agar kita tahu apa yang diterima
-    console.log("=== RAW RESPONSE START (first 1000 chars) ===");
-    console.log(text.slice(0,1000));
-    console.log("=== RAW RESPONSE END ===");
-
-    // Jika respon adalah HTML (mis. Google menampilkan halaman error / login), beritahu user
-    const trimmed = text.trim();
-    if (trimmed.startsWith('<') || trimmed.toLowerCase().includes('doctype html') || trimmed.toLowerCase().includes('you need access')) {
-      console.error("Respon bukan CSV — kemungkinan sheet belum dipublish atau akses belum diatur (lihat pesan di console).");
-      tbody.innerHTML = `<tr><td colspan="5">⚠️ Respon bukan CSV. Pastikan Google Sheet sudah 'Publish to the web' & Share: Anyone with link → Viewer.</td></tr>`;
-      return;
-    }
-
-    // parse CSV robustly (handles quoted fields with commas)
-    const rows = parseCSV(text);
-
-    if (!rows || rows.length < 2) {
-      tbody.innerHTML = `<tr><td colspan="5">Tidak ada data di CSV (atau header saja).</td></tr>`;
-      return;
-    }
-
-    // DEBUG: perlihatkan header dan jumlah baris
-    console.log("CSV Header:", rows[0]);
-    console.log("Jumlah baris (dengan header):", rows.length);
-
-    // Sesuaikan indeks kolom sesuai sheet kamu:
-    // dari screenshot: [0]=Nama, [1]=Total Jarak (KM), [2]=Submission, [3]=Pace
-    const data = rows.slice(1).map(r => ({
-      nama: r[0] ? r[0].trim() : '',
-      jarak: r[1] ? parseFloat(r[1]) : 0,
-      submission: r[2] ? r[2].trim() : '',
-      pace: r[3] ? r[3].trim() : ''
-    }));
-
-    // sort by jarak desc
-    data.sort((a,b) => b.jarak - a.jarak);
-
-    // render
-    tbody.innerHTML = "";
-    data.forEach((r, i) => {
-      let medal = "";
-      if (i === 0) medal = "🥇";
-      else if (i === 1) medal = "🥈";
-      else if (i === 2) medal = "🥉";
-
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${medal || (i + 1)}</td>
-        <td>${r.nama}</td>
-        <td>${r.jarak}</td>
-        <td>${r.submission}</td>
-        <td>${r.pace}</td>
-      `;
-      tbody.appendChild(tr);
-    });
-
-  } catch (err) {
-    console.error("Gagal memuat data:", err);
-    tbody.innerHTML = `<tr><td colspan="5">⚠️ Gagal memuat data. Cek console untuk detail.</td></tr>`;
-  }
-}
-
-loadLeaderboard();
-setInterval(loadLeaderboard, 15000);
-</script>
+    loadLeaderboard();
+    setInterval(loadLeaderboard, 15000); // refresh tiap 15 detik
+  </script>
+</body>
+</html>
