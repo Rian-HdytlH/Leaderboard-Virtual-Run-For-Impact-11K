@@ -2,17 +2,16 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Leaderboard Lari - Real Time</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaderboard Lari</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>🏃‍♂️ Leaderboard Lari 🏃‍♀️</h1>
-  <p>Data update otomatis setiap 10 detik</p>
-
+  <h1>🏃‍♂️ Leaderboard Lari Mingguan</h1>
   <table id="leaderboard">
     <thead>
       <tr>
+        <th>Rank</th>
         <th>Nama</th>
         <th>Total Jarak (KM)</th>
         <th>Submission</th>
@@ -20,40 +19,57 @@
       </tr>
     </thead>
     <tbody>
-      <tr><td colspan="4">Memuat data...</td></tr>
+      <tr><td colspan="5">Memuat data...</td></tr>
     </tbody>
   </table>
 
   <script>
-    // GANTI link ini dengan URL CSV hasil publish Google Sheet
-    const sheetUrl = https://docs.google.com/spreadsheets/d/e/2PACX-1vRPQtSboEl1-0VmU7oJztHpeOTwr2upKLDj8JUtXSP-fU1q2HCF4q4BPg4svbMy3JDpnavypBq91iJF/pub?gid=1189652645&single=true&output=csv;
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRPQtSboEl1-0VmU7oJztHpeOTwr2upKLDj8JUtXSP-fU1q2HCF4q4BPg4svbMy3JDpnavypBq91iJF/pub?gid=1189652645&single=true&output=csv";
 
     async function loadLeaderboard() {
       try {
         const res = await fetch(sheetUrl);
         const text = await res.text();
         const rows = text.trim().split("\n").map(r => r.split(","));
+        const data = rows.slice(1).map(r => ({
+          nama: r[0],
+          jarak: parseFloat(r[1]) || 0,
+          submission: r[2],
+          pace: r[3]
+        }));
+
+        // Urutkan dari jarak tertinggi ke terendah
+        data.sort((a, b) => b.jarak - a.jarak);
 
         const tbody = document.querySelector("#leaderboard tbody");
         tbody.innerHTML = "";
 
-        rows.slice(1).forEach((r, i) => {
+        data.forEach((r, i) => {
+          let medal = "";
+          if (i === 0) medal = "🥇";
+          else if (i === 1) medal = "🥈";
+          else if (i === 2) medal = "🥉";
+
           const tr = document.createElement("tr");
           tr.innerHTML = `
-            <td>${i + 1}</td>
-            <td>${r[0]}</td>
-            <td>${parseFloat(r[1]).toFixed(2)}</td>
-            <td>${parseFloat(r[2]).toFixed(2)}</td>
+            <td>${medal || i + 1}</td>
+            <td>${r.nama}</td>
+            <td>${r.jarak}</td>
+            <td>${r.submission}</td>
+            <td>${r.pace}</td>
           `;
           tbody.appendChild(tr);
         });
+
       } catch (err) {
-        console.error(err);
+        console.error("Gagal memuat data:", err);
+        document.querySelector("#leaderboard tbody").innerHTML =
+          `<tr><td colspan="5">⚠️ Gagal memuat data</td></tr>`;
       }
     }
 
     loadLeaderboard();
-    setInterval(loadLeaderboard, 10000);
+    setInterval(loadLeaderboard, 15000); // refresh tiap 15 detik
   </script>
 </body>
 </html>
