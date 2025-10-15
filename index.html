@@ -35,7 +35,7 @@
           nama: r[0],
           jarak: parseFloat(r[1]) || 0,
           submission: r[2],
-          pace: r[11]
+          waktu: r[11]
         }));
 
         // Urutkan dari jarak tertinggi ke terendah
@@ -56,7 +56,7 @@
             <td>${r.nama}</td>
             <td>${r.jarak}</td>
             <td>${r.submission}</td>
-            <td>${r.pace}</td>
+            <td>${r.waktu}</td>
           `;
           tbody.appendChild(tr);
         });
