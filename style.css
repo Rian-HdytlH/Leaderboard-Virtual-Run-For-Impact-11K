@@ -1,75 +1,63 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Leaderboard Lari</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <h1>🏃‍♂️ Leaderboard Lari Mingguan</h1>
-  <table id="leaderboard">
-    <thead>
-      <tr>
-        <th>Rank</th>
-        <th>Nama</th>
-        <th>Total Jarak (KM)</th>
-        <th>Submission</th>
-        <th>Pace</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td colspan="5">Memuat data...</td></tr>
-    </tbody>
-  </table>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-  <script>
-    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRPQtSboEl1-0VmU7oJztHpeOTwr2upKLDj8JUtXSP-fU1q2HCF4q4BPg4svbMy3JDpnavypBq91iJF/pub?gid=1189652645&single=true&output=csv";
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #c3f8ff, #bff0e8);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-    async function loadLeaderboard() {
-      try {
-        const res = await fetch(sheetUrl);
-        const text = await res.text();
-        const rows = text.trim().split("\n").map(r => r.split(","));
-        const data = rows.slice(1).map(r => ({
-          nama: r[0],
-          jarak: parseFloat(r[1]) || 0,
-          submission: r[2],
-          pace: r[3]
-        }));
+h1 {
+  color: #023047;
+  margin-top: 30px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-align: center;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
 
-        // Urutkan dari jarak tertinggi ke terendah
-        data.sort((a, b) => b.jarak - a.jarak);
+table {
+  width: 90%;
+  max-width: 800px;
+  margin: 30px auto;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  background: #fff;
+}
 
-        const tbody = document.querySelector("#leaderboard tbody");
-        tbody.innerHTML = "";
+th, td {
+  padding: 12px;
+  text-align: center;
+  font-size: 15px;
+}
 
-        data.forEach((r, i) => {
-          let medal = "";
-          if (i === 0) medal = "🥇";
-          else if (i === 1) medal = "🥈";
-          else if (i === 2) medal = "🥉";
+th {
+  background: #00e0e0;
+  color: #000;
+  font-weight: 600;
+  text-transform: uppercase;
+}
 
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${medal || i + 1}</td>
-            <td>${r.nama}</td>
-            <td>${r.jarak}</td>
-            <td>${r.submission}</td>
-            <td>${r.pace}</td>
-          `;
-          tbody.appendChild(tr);
-        });
+tr:nth-child(even) {
+  background: #f9f9f9;
+}
 
-      } catch (err) {
-        console.error("Gagal memuat data:", err);
-        document.querySelector("#leaderboard tbody").innerHTML =
-          `<tr><td colspan="5">⚠️ Gagal memuat data</td></tr>`;
-      }
-    }
+tr:hover {
+  background: #dffaf5;
+  transition: 0.2s ease;
+}
 
-    loadLeaderboard();
-    setInterval(loadLeaderboard, 15000); // refresh tiap 15 detik
-  </script>
-</body>
-</html>
+.medal {
+  font-size: 20px;
+}
+
+@media (max-width: 600px) {
+  th, td { font-size: 13px; padding: 8px; }
+  h1 { font-size: 20px; }
+}
