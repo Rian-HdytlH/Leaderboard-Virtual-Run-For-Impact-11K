@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leaderboard Lari - Real Time</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>🏃‍♂️ Leaderboard Lari 🏃‍♀️</h1>
+  <p>Data update otomatis setiap 10 detik</p>
+
+  <table id="leaderboard">
+    <thead>
+      <tr>
+        <th>Ranking</th>
+        <th>Nama</th>
+        <th>Total Jarak (KM)</th>
+        <th>Kecepatan (KM/Jam)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td colspan="4">Memuat data...</td></tr>
+    </tbody>
+  </table>
+
+  <script>
+    // GANTI link ini dengan URL CSV hasil publish Google Sheet
+    const sheetUrl = "PASTE_URL_CSV_KAMU_DI_SINI";
+
+    async function loadLeaderboard() {
+      try {
+        const res = await fetch(sheetUrl);
+        const text = await res.text();
+        const rows = text.trim().split("\n").map(r => r.split(","));
+
+        const tbody = document.querySelector("#leaderboard tbody");
+        tbody.innerHTML = "";
+
+        rows.slice(1).forEach((r, i) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${i + 1}</td>
+            <td>${r[0]}</td>
+            <td>${parseFloat(r[1]).toFixed(2)}</td>
+            <td>${parseFloat(r[2]).toFixed(2)}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    loadLeaderboard();
+    setInterval(loadLeaderboard, 10000);
+  </script>
+</body>
+</html>
