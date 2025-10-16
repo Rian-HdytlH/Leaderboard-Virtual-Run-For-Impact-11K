@@ -58,6 +58,7 @@ tr:hover {
 }
 
 img {
+  padding: 10px;
   width: 400px;
   height: 380px;
 }
