@@ -69,8 +69,8 @@ tr:hover {
   /* Aturan untuk layar desktop */
   @media screen and (min-width: 1024px) {
     img {
-      width: 500px; /* Contoh ukuran lebar untuk desktop */
-      height: 300px; /* Contoh ukuran tinggi untuk desktop */
+      width: 100%; /* Contoh ukuran lebar untuk desktop */
+      height: auto; /* Contoh ukuran tinggi untuk desktop */
     }
   }
   
