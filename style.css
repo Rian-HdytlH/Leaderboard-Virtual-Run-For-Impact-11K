@@ -62,31 +62,6 @@ div {
   height: 380px;
 }
 
-div .logo {
-
-    /* Aturan dasar untuk gambar */
-  img {
-    width: 100%; /* Lebar sesuai kontainer */
-    height: auto; /* Tinggi otomatis mengikuti rasio aspek */
-  }
-  
-  /* Aturan untuk layar desktop */
-  @media screen and (min-width: 1024px) {
-    img {
-      width: 100%; /* Contoh ukuran lebar untuk desktop */
-      height: auto; /* Contoh ukuran tinggi untuk desktop */
-    }
-  }
-  
-  /* Aturan untuk layar handphone */
-  @media screen and (max-width: 768px) {
-    img {
-      width: 100%; /* Gambar mengisi lebar layar handphone */
-      height: auto; /* Tinggi menyesuaikan */
-    }
-  }
-  
-}
 
 @media (max-width: 600px) {
   th, td { font-size: 13px; padding: 8px; }
