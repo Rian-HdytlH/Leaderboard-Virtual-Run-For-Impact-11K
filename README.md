@@ -1,7 +1,7 @@
 # Leaderboard-Virtual-Run-For-Impact-11K
 
 <div align="center">
-  <img src="https://drive.google.com/drive/folders/19s1IAFhDdw4CE7Y3_xZDAb47_c8XeSwI">
+  <img src="https://drive.google.com/file/d/1y09cj223-NwDahJnjConiHWkXf7jAvS5/view?usp=sharing">
 </div>
 
 # Dashboard
