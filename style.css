@@ -62,7 +62,7 @@ div {
   height: 380px;
 }
 
-.logo {
+div .logo {
 
     /* Aturan dasar untuk gambar */
   img {
