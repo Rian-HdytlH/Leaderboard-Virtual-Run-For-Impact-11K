@@ -27,6 +27,67 @@
   </table>
 
   <script>
+async function loadLeaderboard() {
+  const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRPQtSboEl1-0VmU7oJztHpeOTwr2upKLDj8JUtXSP-fU1q2HCF4q4BPg4svbMy3JDpnavypBq91iJF/pub?gid=1189652645&single=true&output=csv";
+  const res = await fetch(sheetUrl);
+  const text = await res.text();
+  const rows = text.trim().split("\n").map(r => r.split(","));
+  
+  const tableBody = document.querySelector("#leaderboard-body");
+  tableBody.innerHTML = "";
+
+  // Ambil header (baris pertama)
+  const headers = rows[0];
+  // Ambil isi data mulai baris kedua
+  const data = rows.slice(1);
+
+  // Hitung pace (jika kolom Jarak & Waktu ada)
+  const paceIndex = headers.indexOf("Pace");
+  const jarakIndex = headers.indexOf("Jarak Tempuh (KM)");
+  const waktuIndex = headers.indexOf("Waktu Tempuh (Menit)");
+
+  data.forEach((row, index) => {
+    const tr = document.createElement("tr");
+
+    // Tambah kolom ranking dengan medali otomatis
+    const rankTd = document.createElement("td");
+    if (index === 0) rankTd.textContent = "🥇";
+    else if (index === 1) rankTd.textContent = "🥈";
+    else if (index === 2) rankTd.textContent = "🥉";
+    else rankTd.textContent = index + 1;
+    tr.appendChild(rankTd);
+
+    // Tambah kolom nama dan lainnya
+    for (let i = 0; i < headers.length; i++) {
+      const td = document.createElement("td");
+
+      // Hitung pace otomatis kalau belum ada
+      if (headers[i] === "Pace" && jarakIndex >= 0 && waktuIndex >= 0) {
+        const jarak = parseFloat(row[jarakIndex]) || 0;
+        const waktu = parseFloat(row[waktuIndex]) || 0;
+        if (jarak > 0 && waktu > 0) {
+          const pace = waktu / jarak;
+          td.textContent = `${Math.floor(pace)}:${String(Math.round((pace % 1) * 60)).padStart(2, '0')} /km`;
+        } else {
+          td.textContent = "-";
+        }
+      } else {
+        td.textContent = row[i] || "-";
+      }
+
+      tr.appendChild(td);
+    }
+
+    tableBody.appendChild(tr);
+  });
+}
+
+// Jalankan saat halaman selesai dimuat
+document.addEventListener("DOMContentLoaded", loadLeaderboard);
+</script>
+
+
+  <script>
     const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRPQtSboEl1-0VmU7oJztHpeOTwr2upKLDj8JUtXSP-fU1q2HCF4q4BPg4svbMy3JDpnavypBq91iJF/pub?gid=1189652645&single=true&output=csv";
 
     async function loadLeaderboard() {
