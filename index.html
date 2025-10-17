@@ -26,6 +26,32 @@
     </tbody>
   </table>
 
+    <script>
+// Jalankan setelah tabel dimuat
+document.addEventListener("DOMContentLoaded", () => {
+  const observer = new MutationObserver(() => {
+    const rows = document.querySelectorAll("#leaderboard tbody tr");
+    rows.forEach((tr, i) => {
+      const firstCell = tr.querySelector("td");
+      if (!firstCell) return;
+
+      // Tambahkan ikon medali jika belum ada
+      if (i === 0 && !firstCell.textContent.includes("🥇")) firstCell.textContent = "🥇";
+      if (i === 1 && !firstCell.textContent.includes("🥈")) firstCell.textContent = "🥈";
+      if (i === 2 && !firstCell.textContent.includes("🥉")) firstCell.textContent = "🥉";
+
+      // Tambahkan class kilau
+      if (i === 0) firstCell.classList.add("gold-medal");
+      if (i === 1) firstCell.classList.add("silver-medal");
+      if (i === 2) firstCell.classList.add("bronze-medal");
+    });
+  });
+
+  // Pantau perubahan isi tabel (agar tetap update real-time)
+  const tableBody = document.querySelector("#leaderboard tbody");
+  if (tableBody) observer.observe(tableBody, { childList: true });
+});
+</script>
 
   <script>
     const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRPQtSboEl1-0VmU7oJztHpeOTwr2upKLDj8JUtXSP-fU1q2HCF4q4BPg4svbMy3JDpnavypBq91iJF/pub?gid=1189652645&single=true&output=csv";
@@ -76,32 +102,7 @@
     setInterval(loadLeaderboard, 15000); // refresh tiap 15 detik
   </script>
 
-  <script>
-// Jalankan setelah tabel dimuat
-document.addEventListener("DOMContentLoaded", () => {
-  const observer = new MutationObserver(() => {
-    const rows = document.querySelectorAll("#leaderboard tbody tr");
-    rows.forEach((tr, i) => {
-      const firstCell = tr.querySelector("td");
-      if (!firstCell) return;
 
-      // Tambahkan ikon medali jika belum ada
-      if (i === 0 && !firstCell.textContent.includes("🥇")) firstCell.textContent = "🥇";
-      if (i === 1 && !firstCell.textContent.includes("🥈")) firstCell.textContent = "🥈";
-      if (i === 2 && !firstCell.textContent.includes("🥉")) firstCell.textContent = "🥉";
-
-      // Tambahkan class kilau
-      if (i === 0) firstCell.classList.add("gold-medal");
-      if (i === 1) firstCell.classList.add("silver-medal");
-      if (i === 2) firstCell.classList.add("bronze-medal");
-    });
-  });
-
-  // Pantau perubahan isi tabel (agar tetap update real-time)
-  const tableBody = document.querySelector("#leaderboard tbody");
-  if (tableBody) observer.observe(tableBody, { childList: true });
-});
-</script>
 
   
 </body>
