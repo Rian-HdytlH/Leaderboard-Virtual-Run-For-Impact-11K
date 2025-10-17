@@ -85,8 +85,8 @@ th, td {
 }
 
 th {
-  background: #00e0e0;
-  color: #000;
+  background: #062249;
+  color: #fedd36;
   font-weight: 600;
   text-transform: uppercase;
 }
@@ -183,4 +183,22 @@ tr:nth-child(3) td {
   font-weight: 900;
   text-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
+
+
+
+/* Perbesar huruf di baris juara 1–3 */
+.rank-1 td,
+.rank-2 td,
+.rank-3 td {
+  font-size: 1.2em;       /* ubah ukuran font 20% lebih besar */
+  font-weight: 700;       /* buat huruf lebih tebal */
+}
+
+/* Supaya kolom medal tetap proporsional */
+.rank-1 td:first-child .medal-emoji,
+.rank-2 td:first-child .medal-emoji,
+.rank-3 td:first-child .medal-emoji {
+  font-size: 38px;        /* medali besar */
+}
+
 
