@@ -104,17 +104,17 @@ tr:hover {
 }
 
 /* 🏅 Efek kilau Top 3 */
-tr:nth-child(2) td {
+tr:nth-child(1) td {
   background: linear-gradient(135deg, #ffeb3b, #fbc02d);
   animation: shimmerGold 2s infinite linear;
   background-size: 200% 200%;
 }
-tr:nth-child(3) td {
+tr:nth-child(2) td {
   background: linear-gradient(135deg, #e0e0e0, #bdbdbd);
   animation: shimmerSilver 2s infinite linear;
   background-size: 200% 200%;
 }
-tr:nth-child(4) td {
+tr:nth-child(3) td {
   background: linear-gradient(135deg, #ffcc80, #fb8c00);
   animation: shimmerBronze 2s infinite linear;
   background-size: 200% 200%;
