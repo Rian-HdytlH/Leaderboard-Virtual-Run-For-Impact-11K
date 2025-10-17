@@ -6,7 +6,7 @@ body {
   background:
     linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
     /* url('https://images.unsplash.com/photo-1508609349937-5ec4ae374ebf?auto=format&fit=crop&w=1920&q=80') */
-    url('https://unsplash.com/photos/group-of-people-running-on-stadium-atSaEOeE8Nk?auto=format&fit=crop&w=1920&q=80')
+    url('https://images.unsplash.com/photo-1502904550040-7534597429ae?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2900?auto=format&fit=crop&w=1920&q=80')
     /* url('https://github.com/user-attachments/assets/e2800c03-5769-4cd7-ac96-b989eaa601d7?auto=format&fit=crop&w=1920&q=80') */
     no-repeat center center / cover;
   background-attachment: fixed;
