@@ -143,7 +143,7 @@ tr:nth-child(3) td {
 
 
 /* ✨ Efek kilau khusus untuk ikon medali (bukan seluruh baris) */
-.gold-medal {
+/* .gold-medal {
   background: linear-gradient(90deg, #fff59d, #fbc02d, #fff59d);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -162,7 +162,7 @@ tr:nth-child(3) td {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: shineBronze 2s infinite linear;
-}
+} */
 
 /* 🔸 Animasi kilau berjalan */
 @keyframes shineGold {
