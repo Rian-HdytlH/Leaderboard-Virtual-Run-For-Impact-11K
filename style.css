@@ -138,3 +138,47 @@ tr:nth-child(4) td {
   th, td { font-size: 13px; padding: 8px; }
   h1 { font-size: 20px; }
 }
+
+
+/* ✨ Efek kilau khusus untuk ikon medali (bukan seluruh baris) */
+.gold-medal {
+  background: linear-gradient(90deg, #fff59d, #fbc02d, #fff59d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shineGold 2s infinite linear;
+}
+
+.silver-medal {
+  background: linear-gradient(90deg, #e0e0e0, #bdbdbd, #eeeeee);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shineSilver 2s infinite linear;
+}
+
+.bronze-medal {
+  background: linear-gradient(90deg, #ffcc80, #fb8c00, #ffcc80);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shineBronze 2s infinite linear;
+}
+
+/* 🔸 Animasi kilau berjalan */
+@keyframes shineGold {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+@keyframes shineSilver {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+@keyframes shineBronze {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+.gold-medal, .silver-medal, .bronze-medal {
+  background-size: 200% 200%;
+  font-weight: 900;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
