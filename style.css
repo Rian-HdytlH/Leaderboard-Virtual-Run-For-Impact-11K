@@ -6,8 +6,8 @@ body {
   background:
     linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
     /* url('https://images.unsplash.com/photo-1508609349937-5ec4ae374ebf?auto=format&fit=crop&w=1920&q=80') */
+    url('https://unsplash.com/photos/a-group-of-people-running-on-a-track-cEmYircNnEA?auto=format&fit=crop&w=1920&q=80')
     /* url('https://github.com/user-attachments/assets/e2800c03-5769-4cd7-ac96-b989eaa601d7?auto=format&fit=crop&w=1920&q=80') */
-    url('https://drive.google.com/file/d/1tgtm0e9niid8xEzcylPhA6ZeDq0iyu_F/view?usp=sharing?auto=format&fit=crop&w=1920&q=80')
     no-repeat center center / cover;
   background-attachment: fixed;
   min-height: 100vh;
