@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
         else if (i === 1) medal = "🥈";
         else if (i === 2) medal = "🥉";
         // Tambahkan 🏅 untuk yang jaraknya >= 11 KM tapi bukan top 3
-        else if (r.jarak >= 11) medal = "🏅";
+        else if (r.jarak >= 11) medal = "✅";
 
         const tr = document.createElement("tr");
         tr.innerHTML = `
@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
 
         // Tambahkan class khusus untuk efek visual
-        if (medal === "🏅") tr.classList.add("finisher-medal");
+        if (medal === "✅") tr.classList.add("finisher-medal");
 
         tbody.appendChild(tr);
       });
