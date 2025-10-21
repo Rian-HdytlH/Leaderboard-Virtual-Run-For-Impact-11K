@@ -213,4 +213,10 @@ tr:nth-child(3) td {
   background: linear-gradient(90deg, rgba(255, 235, 59, 0.1), rgba(255, 193, 7, 0.15));
 }
 
+/* 👟 Untuk peserta yang belum 11KM */
+.runner-medal td:first-child {
+  font-size: 18px;
+  color: #607d8b;
+}
+
 
