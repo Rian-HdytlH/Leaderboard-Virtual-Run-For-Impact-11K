@@ -202,3 +202,15 @@ tr:nth-child(3) td {
 }
 
 
+/* 🏅 Finisher Medal (≥11KM, bukan top 3) */
+.finisher-medal td:first-child {
+  font-size: 20px;
+  color: #ffb300;
+  text-shadow: 0 0 6px rgba(255, 193, 7, 0.6);
+}
+
+.finisher-medal td {
+  background: linear-gradient(90deg, rgba(255, 235, 59, 0.1), rgba(255, 193, 7, 0.15));
+}
+
+
