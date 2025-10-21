@@ -132,6 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
         else if (i === 2) medal = "🥉";
         // Tambahkan 🏅 untuk yang jaraknya >= 11 KM tapi bukan top 3
         else if (r.jarak >= 11) medal = "✅";
+        else medal = "👟";
 
         const tr = document.createElement("tr");
         tr.innerHTML = `
