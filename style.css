@@ -216,4 +216,11 @@ tr:nth-child(3) td {
   color: #607d8b;
 }
 
+/* 🔹 FOOTER */
+footer {
+  margin: 20px 0;
+  font-size: 13px;
+  color: #dcdcdc;
+  opacity: 0.8;
+}
 
